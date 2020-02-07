@@ -1,0 +1,69 @@
+package car;
+
+import java.util.Date;
+import java.util.Scanner;
+
+/**
+ *
+ * @author lixiaodan
+ */
+public class Carupdate {
+   /**
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) {
+        Car MyCar=new Car();
+        int Count=10000;
+        MyCar.SetSpeed(5);
+        while(true){
+        for(Count=1000;Count>0;Count--);
+        MyCar.UpdateLoc();
+        }
+    }
+   
+    public static class Car{
+    static long LastTime=0;
+    static int Location_x=0,Location_y=0;
+    static int Car_Length=30,Car_width=10;
+    static int Speed=0;
+    static int Acceleration=0;
+    static int Direction=0;
+    
+    void SetSpeed(int Tmp){
+        this.UpdateLoc();
+        this.Speed=Tmp;
+        }
+    void SetAcceleration(int Tmp){
+        this.UpdateLoc();
+        this.Acceleration=Tmp;
+        }
+    void Turn(int Tmp){
+        this.UpdateLoc();
+        this.Direction=Tmp;
+        }
+    void UpdateLoc(){
+        long TimeNow;
+        int DeltaT=0,DeltaD=0,DeltaX=0,DeltaY=0;
+        Date MyDate=new Date();
+        TimeNow=MyDate.getTime();
+        DeltaT=(int)(TimeNow-this.LastTime);
+        DeltaD=(this.Speed+this.Acceleration*DeltaT/2000)*DeltaT/1000;
+        switch(this.Direction){
+            case 0:
+                this.Location_y +=DeltaD;   //0=Up to North,2:South
+                break;
+            case 2:
+                this.Location_y -=DeltaD;       //2=Downn to South
+                break;
+            case 1:
+                this.Location_x +=DeltaD;       //1=East
+                break;
+            case 3:
+                this.Location_x -=DeltaD;       //3=West
+                break;
+            }
+        System.out.printf("Location is at: X:%d and Y:%d\n",this.Location_x,this.Location_y);
+        this.LastTime=TimeNow;
+        }
+    }
+}
